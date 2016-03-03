@@ -1,0 +1,30 @@
+# For all options see https://github.com/bbatsov/rubocop/tree/master/config
+
+AllCops:
+  Exclude:
+    - 'node_modules/**/*'
+    - 'vendor/**/*'
+
+LineLength:
+  Max: 90
+
+MethodLength:
+  Max: 30
+
+Metrics/AbcSize:
+  Max: 25
+
+Style/TrailingCommaInLiteral:
+  EnforcedStyleForMultiline: comma
+
+Style/DotPosition:
+  EnforcedStyle: trailing
+
+Style/MultilineBlockChain:
+  Enabled: false
+
+Style/MultilineMethodCallIndentation:
+  Enabled: false
+
+Documentation:
+    Enabled: false
