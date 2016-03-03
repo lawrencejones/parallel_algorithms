@@ -32,6 +32,6 @@ end
 
 puts(%(
 Total latency expected to be:
-??, p=#{network.ps.size}, m=1
+sum_{i=1}^{log_2(p)} (t_s + t_h + 2^{i-1}*t_w*m), p=#{network.ps.size}, m=1
 
 Computed latency to be: ), network.ps.max_by { |p| p.cost.values.inject(:+) }.cost)
