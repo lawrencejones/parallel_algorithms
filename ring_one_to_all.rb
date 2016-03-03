@@ -5,7 +5,7 @@ require_relative './ring.rb'
 #
 # Usage...
 #
-#     ./one_to_all <no-of-processes> <initial-src-node>
+#     ./ring_one_to_all.rb <no-of-processes> <initial-src-node>
 #
 
 no_of_processes, initial_src_node = ARGV.map(&:to_i)

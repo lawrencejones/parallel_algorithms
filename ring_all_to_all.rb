@@ -5,7 +5,7 @@ require_relative './ring.rb'
 #
 # Usage...
 #
-#     ./all_to_all <no-of-processes>
+#     ./ring_all_to_all.rb <no-of-processes>
 #
 
 no_of_processes = ARGV.first.to_i
