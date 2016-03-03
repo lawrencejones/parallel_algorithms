@@ -22,21 +22,21 @@ module Networks
     end
 
     def initialize(p, &handler)
-      @ps = (0..p-1).map { |i| Process.new(i, self) }
+      @ps = (0..p - 1).map { |i| Process.new(i, self) }
       @handler = handler
       @pending_messages = []
     end
 
     attr_reader :ps, :pending_messages
 
-    def hops_between(src, dst)
-      raise NotImplementedError, 'Must be defined in subclass'
+    def hops_between(_src, _dst)
+      fail NotImplementedError, 'Must be defined in subclass'
     end
 
     def step
-      ps.each { |p| p.in.clear }  # clear old messages
+      ps.each { |p| p.in.clear } # clear old messages
 
-      until (src,dst,val = @pending_messages.pop).nil?
+      until (src, dst, val = @pending_messages.pop).nil?
         ps[dst].in << [src, val]
       end
 
@@ -45,10 +45,10 @@ module Networks
 
     # Runs the network until the condition is satisfied/we have stepped p times.
     # If the condition is never satisfied then return -1.
-    def run_until(&condition)
+    def run_until(&_condition)
       for i in 0..ps.size
         step
-        return i if condition.call(self)
+        return i if yield self
       end
 
       -1

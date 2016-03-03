@@ -12,7 +12,7 @@ MethodLength:
   Max: 30
 
 Metrics/AbcSize:
-  Max: 25
+  Max: 30
 
 Style/TrailingCommaInLiteral:
   EnforcedStyleForMultiline: comma
@@ -27,4 +27,7 @@ Style/MultilineMethodCallIndentation:
   Enabled: false
 
 Documentation:
-    Enabled: false
+  Enabled: false
+
+Style/For:
+  Enabled: false

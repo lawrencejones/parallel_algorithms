@@ -1,0 +1,7 @@
+test:
+  pre:
+    - bundle install
+  override:
+    - make test
+  post:
+    - make lint

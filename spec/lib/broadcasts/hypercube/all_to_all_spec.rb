@@ -27,4 +27,3 @@ RSpec.describe(Broadcasts::Hypercube) do
     end
   end
 end
-
