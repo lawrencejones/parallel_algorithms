@@ -57,7 +57,7 @@ static char* findNLeadingZeros(char *base, int n, int start, int increment)
   MPI_Request request;
   MPI_Irecv(message, 2048, MPI_BYTE, MPI_ANY_SOURCE, MPI_ANY_TAG, MPI_COMM_WORLD, &request);
 
-  for (int i = start; i < 25 * 1000 * 1000; i += increment)
+  for (int i = start; i < 100 * 1000 * 1000; i += increment)
   {
 
     // Periodic check for a solution

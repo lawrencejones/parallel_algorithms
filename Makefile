@@ -2,10 +2,10 @@ SRC=$(shell find mpi -name "*.c")
 OBJ=$(SRC:.c=.o)
 
 bin/search: $(OBJ)
-	mpicc $^ -o $@
+	mpicc -std=c99 $^ -o $@
 
 mpi/%.o: mpi/%.c
-	mpicc -c $< -o $@
+	mpicc -std=c99 -c $< -o $@
 
 clean:
 	rm -fv $(OBJ)
