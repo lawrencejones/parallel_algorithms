@@ -10,4 +10,12 @@ Run the search with the command...
 mpiexec -machinefile <hostfile> -np <no-of-workers> bin/search <no-of-leading-zeros>
 ```
 
-To run locally, configure a hostfile with content `"127.0.0.1:<no-of-threads>"`
+To run locally, configure a hostfile with content `"127.0.0.1:<no-of-threads>"`.
+Alternatively, create a `.env` with the following content.
+
+```sh
+# Convenience helper for running mpi binaries on localhost
+mpi-local() {
+  mpiexec -machinefile hosts -np 4 $@
+}
+```

@@ -1,14 +1,21 @@
-SRC=$(shell find mpi -name "*.c")
-OBJ=$(SRC:.c=.o)
+SEARCH_SRC=$(shell find mpi/search -name "*.c")
+PI_SRC=$(shell find mpi/pi -name "*.c")
 
-bin/search: $(OBJ)
-	mpicc -std=c99 $^ -o $@
+MPI=mpicc -std=c99
+
+all: bin/search bin/pi
+
+bin/search: $(SEARCH_SRC:.c=.o)
+	$(MPI) $^ -o $@
+
+bin/pi: $(PI_SRC:.c=.o)
+	$(MPI) $^ -o $@
 
 mpi/%.o: mpi/%.c
-	mpicc -std=c99 -c $< -o $@
+	$(MPI) -c $< -o $@
 
 clean:
-	rm -fv $(OBJ)
+	find mpi -type f -name "*.o" -print0 | xargs -0 rm -fv
 
 test:
 	bundle exec rspec -r spec_helper.rb spec
