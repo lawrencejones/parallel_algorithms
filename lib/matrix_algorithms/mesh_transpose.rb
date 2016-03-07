@@ -22,10 +22,11 @@ module MatrixAlgorithms
     end
 
     attr_reader :m, :mesh
+
     private
 
     def build_mesh(no_of_processes)
-      Networks::Mesh.new(no_of_processes) do |network, process|
+      Networks::Mesh.new(no_of_processes) do |_network, process|
         unless process.state[:run?]
           process.state[:matrix] = process.state[:matrix].t
           dst = block_width * (process.i % block_width) + (process.i / block_width).floor
