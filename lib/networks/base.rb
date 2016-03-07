@@ -15,7 +15,7 @@ module Networks
       def send(dst, val)
         @cost[:ts] += 1
         @cost[:th] += net.hops_between(i, dst)
-        @cost[:tw] += [val].flatten.count
+        @cost[:tw] += [*val].flatten.count
 
         net.send(i, dst, val)
       end
@@ -52,6 +52,10 @@ module Networks
       end
 
       -1
+    end
+
+    def active?
+      pending_messages.any?
     end
 
     def send(src, dst, val)

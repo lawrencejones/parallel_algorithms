@@ -14,8 +14,8 @@ module Networks
     end
 
     def hops_between(src, dst)
-      rows = (src - dst).abs % n
-      cols = ((src - dst).abs / n).floor
+      rows = ((src / n).floor - (dst / n).floor).abs
+      cols = ((src % n) - (dst % n)).abs
 
       rows + cols
     end

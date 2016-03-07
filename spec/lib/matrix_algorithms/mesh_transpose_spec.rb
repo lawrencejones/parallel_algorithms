@@ -15,6 +15,7 @@ RSpec.describe(MatrixAlgorithms::MeshTranspose) do
 
   let(:m) { Matrix.build(4, 4) { |r, c| r * 4 + c } }
   let(:no_of_processors) { 4 }
+  let(:mesh) { transpose.mesh }
 
   describe '.global_matrix' do
     it 'computes global matrix from all process minors' do
@@ -43,9 +44,16 @@ RSpec.describe(MatrixAlgorithms::MeshTranspose) do
     end
   end
 
-  describe '.t' do
-    subject(:t) { transpose.t }
+  describe '.run' do
+    subject!(:t) { transpose.run }
 
     it { is_expected.to eql(m.t) }
+
+    it "runs in ts + (n^2/p)*tw + 2*(√p − 1)*th" do
+      expect(mesh.cost).
+        to eql(ts: 1,
+               th: 2*(Math.sqrt(no_of_processors).floor - 1),
+               tw: (m.count / no_of_processors).floor)
+    end
   end
 end

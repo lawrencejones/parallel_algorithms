@@ -4,12 +4,13 @@ module MatrixAlgorithms
   class MeshTranspose
     def initialize(m, no_of_processes)
       @m = m
-      @mesh = Networks::Mesh.new(no_of_processes)
+      @mesh = build_mesh(no_of_processes)
       @mesh.ps.each { |p| init_process(p) }
     end
 
-    def t
-      m.t
+    def run
+      mesh.run_until { |network| !network.active? }
+      global_matrix
     end
 
     # Computes the global matrix from the individual process minors
@@ -20,8 +21,22 @@ module MatrixAlgorithms
       end
     end
 
-    private
     attr_reader :m, :mesh
+    private
+
+    def build_mesh(no_of_processes)
+      Networks::Mesh.new(no_of_processes) do |network, process|
+        unless process.state[:run?]
+          process.state[:matrix] = process.state[:matrix].t
+          dst = block_width * (process.i % block_width) + (process.i / block_width).floor
+          process.send(dst, process.state[:matrix]) unless dst == process.i
+
+          process.state[:run?] = true
+        end
+
+        process.in.each { |(_, matrix)| process.state[:matrix] = matrix }
+      end
+    end
 
     def init_process(p)
       p.state[:matrix] = process_minor(p.i)
