@@ -13,7 +13,7 @@ module Broadcasts
       if stack.size < network.ps.size
         next_dst = process.i ^ 2**process.state[:step]
         process.state[:step] += 1
-        process.send(next_dst, stack)
+        process.send_to(next_dst, stack)
       end
     end
   end

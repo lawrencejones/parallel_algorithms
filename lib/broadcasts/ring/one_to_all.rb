@@ -15,7 +15,7 @@ module Broadcasts
         forward_dst = process.i + 2**process.state[:step]
         forward_dst -= network.ps.size if forward_dst >= network.ps.size
 
-        process.send(forward_dst, process.state[:val])
+        process.send_to(forward_dst, process.state[:val])
       end
     end
   end

@@ -12,12 +12,12 @@ module Networks
 
       attr_reader :i, :in, :out, :cost, :net, :state
 
-      def send(dst, val)
+      def send_to(dst, val)
         @cost[:ts] += 1
         @cost[:th] += net.hops_between(i, dst)
         @cost[:tw] += [*val].flatten.count
 
-        net.send(i, dst, val)
+        net.send_to(i, dst, val)
       end
     end
 
@@ -59,7 +59,7 @@ module Networks
       pending_messages.any?
     end
 
-    def send(src, dst, val)
+    def send_to(src, dst, val)
       pending_messages << [src, dst, val]
     end
 

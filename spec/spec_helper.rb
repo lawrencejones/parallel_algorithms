@@ -1,4 +1,5 @@
 require 'rspec'
+require 'rspec/its'
 
 $LOAD_PATH << '../lib'
 

@@ -10,12 +10,12 @@ module Questions
         process.in.each { |(_, msg)| vector.push(*msg) }
 
         if vector.size < n
-          process.send(right(process.i), vector.last(1))
+          process.send_to(right(process.i), vector.last(1))
           next
         end
 
         if vector.size.between?(n, p - n)
-          process.send(down(process.i), vector.last(n))
+          process.send_to(down(process.i), vector.last(n))
         end
       end
 

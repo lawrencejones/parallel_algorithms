@@ -10,7 +10,7 @@ module Broadcasts
       end
 
       if stack.uniq.size < network.ps.size
-        process.send((process.i + 1) % network.ps.size, stack.last)
+        process.send_to((process.i + 1) % network.ps.size, stack.last)
       end
     end
   end
