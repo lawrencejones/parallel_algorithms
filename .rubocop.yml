@@ -31,3 +31,9 @@ Documentation:
 
 Style/For:
   Enabled: false
+
+Metrics/PerceivedComplexity:
+  Enabled: false
+
+Metrics/CyclomaticComplexity:
+  Enabled: false
