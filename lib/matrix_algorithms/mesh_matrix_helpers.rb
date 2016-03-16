@@ -2,42 +2,42 @@ require 'terminal-table'
 
 module MatrixAlgorithms
   module MeshMatrixHelpers
-    attr_reader :m
+    # Computes an aggregated matrix from the individual processes
+    def gather_matrix(state_key)
+      sample_block = ps.first.state[state_key]
 
-    # Computes the global matrix from the individual process minors
-    def global_matrix
-      Matrix.build(m.row_size, m.column_size) do |i, j|
-        p = ps[ij_to_process(i, j)]
-        p.state[:matrix][i % block_width, j % block_width]
+      rows = root_p * sample_block.row_size
+      columns = root_p * sample_block.column_size
+
+      Matrix.build(rows, columns) do |i, j|
+        p_i = (i / sample_block.column_size).floor
+        p_j = (j / sample_block.row_size).floor
+
+        p = ps[root_p * p_i + p_j]
+        p.state[state_key][i % sample_block.row_size, j % sample_block.row_size]
       end
     end
 
-    def process_minor(pi)
-      row_index = pi / n
-      col_index = pi % n
+    # Extracts the block of the matrix that should be mapped to process_i
+    def process_minor(process_i, matrix)
+      block_width = Math.sqrt(matrix.count / p).floor
 
-      row_range = Range.new(block_width * row_index, block_width * (row_index + 1) - 1)
-      col_range = Range.new(block_width * col_index, block_width * (col_index + 1) - 1)
+      row_index = block_width * (process_i / root_p).floor
+      col_index = block_width * (process_i % root_p)
 
-      m.minor(row_range, col_range)
+      row_range = Range.new(row_index, row_index + block_width - 1)
+      col_range = Range.new(col_index, col_index + block_width - 1)
+
+      matrix.minor(row_range, col_range)
     end
 
-    def ij_to_process(i, j)
-      base_pi = n * (i / block_width).floor
-      base_pi + (j / block_width).floor % n
-    end
-
-    def block_width
-      Math.sqrt(m.count / p).to_i
+    def diagonal?(process_i)
+      row_index = (process_i / root_p).floor
+      row_index == process_i % root_p
     end
 
     def root_p
       Math.sqrt(p).floor
-    end
-
-    def diagonal?(p)
-      row_index = (p.i / root_p).floor
-      row_index == p.i % root_p
     end
 
     def print_state

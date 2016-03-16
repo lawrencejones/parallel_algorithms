@@ -8,7 +8,7 @@ module MatrixAlgorithms
     def initialize(no_of_processes, m, vector)
       super(no_of_processes) do |_network, process|
         # One-to-all up column
-        if diagonal?(process) && process.state.key?(:seed)
+        if diagonal?(process.i) && process.state.key?(:seed)
           seed = process.state.delete(:seed)
           all_in_column = (0..root_p - 1).map { |i| i * root_p + process.i % root_p }
 
@@ -23,11 +23,11 @@ module MatrixAlgorithms
           row_index = (process.i / root_p).floor
           diagonal = row_index * root_p + row_index
 
-          process.send_to(diagonal, process.state[:ith_result]) unless diagonal?(process)
+          process.send_to(diagonal, process.state[:ith_result]) unless diagonal?(process.i)
           next
         end
 
-        if process.state.key?(:ith_result) && diagonal?(process)
+        if process.state.key?(:ith_result) && diagonal?(process.i)
           process.state[:result] ||= process.in.
             reduce(process.state[:ith_result]) do |a, (_, ith_result)|
               a + ith_result
@@ -38,7 +38,7 @@ module MatrixAlgorithms
       @m = m
       @vector = vector
 
-      ps.each { |p| p.state[:matrix] = process_minor(p.i) }
+      ps.each { |p| p.state[:matrix] = process_minor(p.i, m) }
       vector.each_slice(vector.count / root_p).each_with_index do |vs, i|
         ps[i * root_p + i].state[:seed] = Matrix[vs].t
       end

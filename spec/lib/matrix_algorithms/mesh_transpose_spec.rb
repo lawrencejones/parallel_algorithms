@@ -27,23 +27,4 @@ RSpec.describe(MatrixAlgorithms::MeshTranspose) do
                tw: (m.count / no_of_processors).floor)
     end
   end
-
-  describe '.global_matrix' do
-    it 'computes global matrix from all process minors' do
-      # Use the fact that initially, the global will be the input
-      expect(transpose.global_matrix).to eql(m)
-    end
-  end
-
-  describe '.process_minor' do
-    it 'computes top left' do
-      expect(transpose.process_minor(0)).
-        to eql(Matrix[[0, 1], [4, 5]])
-    end
-
-    it 'computes bottom left' do
-      expect(transpose.process_minor(2)).
-        to eql(Matrix[[8, 9], [12, 13]])
-    end
-  end
 end
