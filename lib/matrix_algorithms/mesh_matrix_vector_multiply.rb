@@ -23,7 +23,9 @@ module MatrixAlgorithms
           row_index = (process.i / root_p).floor
           diagonal = row_index * root_p + row_index
 
-          process.send_to(diagonal, process.state[:ith_result]) unless diagonal?(process.i)
+          unless diagonal?(process.i)
+            process.send_to(diagonal, process.state[:ith_result])
+          end
           next
         end
 

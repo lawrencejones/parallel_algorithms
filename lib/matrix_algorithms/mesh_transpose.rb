@@ -10,7 +10,7 @@ module MatrixAlgorithms
         unless process.state[:sent?]
           matrix = process.state[:matrix]
           dst = matrix.row_size * (process.i % matrix.row_size) +
-            (process.i / matrix.column_size).floor
+                (process.i / matrix.column_size).floor
           process.send_to(dst, matrix.t)
 
           process.state[:sent?] = true

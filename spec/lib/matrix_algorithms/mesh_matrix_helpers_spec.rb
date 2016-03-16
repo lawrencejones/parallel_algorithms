@@ -41,10 +41,10 @@ RSpec.describe(MatrixAlgorithms::MeshMatrixHelpers) do
 
   describe '.process_minor' do
     it 'extracts in left-to-right order', :aggregate_failures do
-      expect(network.process_minor(0, matrix)).to eql(Matrix[[0,1],[4,5]])
-      expect(network.process_minor(1, matrix)).to eql(Matrix[[2,3],[6,7]])
-      expect(network.process_minor(2, matrix)).to eql(Matrix[[8,9],[12,13]])
-      expect(network.process_minor(3, matrix)).to eql(Matrix[[10,11],[14,15]])
+      expect(network.process_minor(0, matrix)).to eql(Matrix[[0, 1], [4, 5]])
+      expect(network.process_minor(1, matrix)).to eql(Matrix[[2, 3], [6, 7]])
+      expect(network.process_minor(2, matrix)).to eql(Matrix[[8, 9], [12, 13]])
+      expect(network.process_minor(3, matrix)).to eql(Matrix[[10, 11], [14, 15]])
     end
   end
 end
