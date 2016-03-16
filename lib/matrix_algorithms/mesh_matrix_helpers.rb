@@ -42,9 +42,6 @@ module MatrixAlgorithms
 
     def print_state
       table = Terminal::Table.new do |t|
-        t.rows.clear
-        t << :separator
-
         for i in 0..root_p - 1
           row = []
           for j in 0..root_p - 1
@@ -53,10 +50,10 @@ module MatrixAlgorithms
             row << "##{p_index}\n#{state_string}"
           end
           t << row
-          t.add_separator
+          t.add_separator unless i == root_p - 1
         end
       end
-      puts(table)
+      puts(table, "\n")
     end
   end
 end
